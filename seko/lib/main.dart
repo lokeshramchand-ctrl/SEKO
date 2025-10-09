@@ -17,7 +17,9 @@ import 'package:seko/First%20Sector/signuppage.dart';
 import 'package:seko/First%20Sector/animation.dart';
 import 'package:seko/First%20Sector/splash.dart';
 
-
+void main() {
+  runApp(const MyApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -29,13 +31,13 @@ class MyApp extends StatelessWidget {
       routes: {
         //First Sector
         '/': (context) => const AnimationScreen(),
-        '/splash' : (context) => const SplashScreen(),
+        '/splash': (context) => const SplashScreen(),
         '/intro': (context) => const Intropage(),
         '/signup': (context) => const Signuppage(),
         '/login': (context) => const Login(),
         '/forgot': (context) => const Forgot(),
 
-        //Main sector 
+        //Main sector
         '/homepage': (context) => const HomePage(),
         '/vegetables': (context) => const Vegetables(),
         '/fruits': (context) => const Fruits(),
@@ -46,7 +48,7 @@ class MyApp extends StatelessWidget {
         '/checkout': (context) => const Checkout(),
         '/payment': (context) => const PaymentPage(),
         '/delivery': (context) => const DeliveryPage(),
-      }, 
+      },
       debugShowCheckedModeBanner: false,
     );
   }

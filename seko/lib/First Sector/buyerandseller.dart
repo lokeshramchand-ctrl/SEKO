@@ -7,7 +7,6 @@ import 'package:seko/First%20Sector/Button2.dart';
 
 class Profile extends StatelessWidget {
   const Profile({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,30 +41,28 @@ class Profile extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(
-            height: 150,
-          ),
+          const SizedBox(height: 150),
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Row(children: [
-                  const SizedBox(width: 30),
-                  ProfileButton(buttonText: 'Seller', onPressed: () {}),
-                  const SizedBox(width: 50), // Space between fields
-                  ProfileButton(buttonText: 'Buyer', onPressed: () {}),
-                ]),
-
-                const SizedBox(
-                  height: 100,
+                Row(
+                  children: [
+                    const SizedBox(width: 30),
+                    ProfileButton(buttonText: 'Seller', onPressed: () {}),
+                    const SizedBox(width: 50), // Space between fields
+                    ProfileButton(buttonText: 'Buyer', onPressed: () {}),
+                  ],
                 ),
+
+                const SizedBox(height: 100),
                 const SizedBox(height: 150), // Space before button
                 NextButton(
                   buttonText: 'Next',
                   onPressed: () {
                     Navigator.pushNamed(context, '/dateofbirth');
                   },
-                )
+                ),
               ],
             ),
           ),
