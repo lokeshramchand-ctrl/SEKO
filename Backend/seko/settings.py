@@ -100,8 +100,8 @@ SOCIALACCOUNT_LOGIN_ON_GET = True
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
         'APP': {
-            'client_id': '448503228009-u4jkq91r9ea1ek38bi3tmohf1nni8p59.apps.googleusercontent.com',
-            'secret': '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',
+            'client_id': env('GOOGLE_CLIENT_ID'),
+            'secret': env('GOOGLE_SECRET'),
         },
         'SCOPE': [
             'profile',
