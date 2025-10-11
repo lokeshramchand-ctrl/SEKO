@@ -4,6 +4,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:seko/First%20Sector/loginbutton.dart';
+import 'package:seko/enviroment.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Intropage extends StatefulWidget {
@@ -14,7 +15,10 @@ class Intropage extends StatefulWidget {
 }
 
 class _IntropageState extends State<Intropage> {
-  final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email', 'profile']);
+  final GoogleSignIn _googleSignIn = GoogleSignIn(
+    serverClientId: Environment.serverClientId,
+    scopes: ['email', 'profile'],
+  );
 
   Future<void> signInWithGoogle(BuildContext context) async {
     try {
@@ -25,7 +29,7 @@ class _IntropageState extends State<Intropage> {
       final String idToken = auth.idToken!;
 
       final response = await Dio().post(
-        'http://10.0.2.2:8000/api/auth/google/',
+        '${Environment.baseUrl}/api/auth/google/',
         data: {'token': idToken},
       );
 

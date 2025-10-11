@@ -41,9 +41,7 @@ class Login extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(
-            height: 150,
-          ),
+          const SizedBox(height: 150),
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -52,13 +50,9 @@ class Login extends StatelessWidget {
                 const SizedBox(height: 30), // Space between fields
                 // Adding the password field along with the "Forgot Password" button
                 _buildPasswordWithForgot(context),
-                const SizedBox(
-                  height: 100,
-                ),
+                const SizedBox(height: 100),
                 const SizedBox(height: 150), // Space before button
-                const LoginButton(
-                  buttonText: 'Next',
-                )
+                const LoginButton(buttonText: 'Next'),
               ],
             ),
           ),
@@ -76,7 +70,7 @@ class Login extends StatelessWidget {
         _buildTextField(context, "Password"),
         GestureDetector(
           onTap: () {
-            Navigator.pushNamed(context, '/forgot');
+            Navigator.pushNamed(context, '/homepage');
           },
           child: Padding(
             padding: const EdgeInsets.only(right: 5, top: 10),

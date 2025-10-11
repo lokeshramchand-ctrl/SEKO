@@ -1,0 +1,5 @@
+class Environment {
+  static const String baseUrl = 'http://192.168.1.10:8000';
+  static const String serverClientId =
+      "448503228009-hc7a1q75434l4u9a4sgvl959ri987aso.apps.googleusercontent.com";
+}
