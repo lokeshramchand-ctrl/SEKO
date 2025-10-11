@@ -1,8 +1,10 @@
-from django.urls import path
-from . import views
+from django.urls import path, include
+
+from Backend.authentication.views import LoginAPIView, LogoutView, UserView, registerAPIView
 
 urlpatterns = [
-    path('auth/google/', views.google_auth_view, name='google_auth'),
-    path('auth/logout/', views.custom_logout, name='logout'),
-    path('auth/check/', views.check_auth, name='check_auth'),
+    path('register/', registerAPIView.as_view()),
+    path('login/', LoginAPIView.as_view()),
+    path('user/', UserView.as_view()),
+    path('logout/', LogoutView.as_view())
 ]
