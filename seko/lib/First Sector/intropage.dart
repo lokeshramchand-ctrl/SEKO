@@ -1,11 +1,49 @@
-// ignore_for_file: sort_child_properties_last
-
+// ignore_for_file: sort_child_properties_last, avoid_print, await_only_futures, use_build_context_synchronously
+import 'package:dio/dio.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:seko/First%20Sector/loginbutton.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class Intropage extends StatelessWidget {
+class Intropage extends StatefulWidget {
   const Intropage({super.key});
+
+  @override
+  State<Intropage> createState() => _IntropageState();
+}
+
+class _IntropageState extends State<Intropage> {
+  final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email', 'profile']);
+
+  Future<void> signInWithGoogle(BuildContext context) async {
+    try {
+      final GoogleSignInAccount? account = await _googleSignIn.signIn();
+      if (account == null) return;
+
+      final GoogleSignInAuthentication auth = await account.authentication;
+      final String idToken = auth.idToken!;
+
+      final response = await Dio().post(
+        'http://10.0.2.2:8000/api/auth/google/',
+        data: {'token': idToken},
+      );
+
+      final data = response.data;
+      final accessToken = data['tokens']['access'];
+      final refreshToken = data['tokens']['refresh'];
+
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('accessToken', accessToken);
+      await prefs.setString('refreshToken', refreshToken);
+
+      if (mounted) {
+        Navigator.pushNamed(context, '/homepage');
+      }
+    } catch (e) {
+      print('Google Sign-In error: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +97,7 @@ class Intropage extends StatelessWidget {
                   "assets/4.png", // Path to your custom Google icon
                   () {
                     // Add your sign-in action here
+                    signInWithGoogle(context);
                   },
                 ),
                 const SizedBox(height: 10), // Space between buttons
@@ -88,22 +127,19 @@ class Intropage extends StatelessWidget {
                     Navigator.pushNamed(context, '/signup');
                   },
                 ),
-                const SizedBox(
-                  height: 50,
-                ),
+                const SizedBox(height: 50),
                 Center(
-                    child: Text(
-                  "OR",
-                  style: GoogleFonts.albertSans(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w300,
-                    color: Colors.black,
+                  child: Text(
+                    "OR",
+                    style: GoogleFonts.albertSans(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w300,
+                      color: Colors.black,
+                    ),
                   ),
-                )),
-                const SizedBox(height: 30), // Space between buttons
-                const LoginButton(
-                  buttonText: 'Login',
                 ),
+                const SizedBox(height: 30), // Space between buttons
+                const LoginButton(buttonText: 'Login'),
               ],
             ),
           ),
@@ -112,8 +148,12 @@ class Intropage extends StatelessWidget {
     );
   }
 
-  Widget _buildButton(BuildContext context, String text, String iconPath,
-      VoidCallback onPressed) {
+  Widget _buildButton(
+    BuildContext context,
+    String text,
+    String iconPath,
+    VoidCallback onPressed,
+  ) {
     return Container(
       width: 300, // Fixed width for all buttons
       height: 70, // Fixed height for all buttons
