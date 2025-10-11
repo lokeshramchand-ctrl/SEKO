@@ -1,4 +1,4 @@
 
 .env
 *.env
-
+./seko/settings.py
