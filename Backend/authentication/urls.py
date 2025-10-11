@@ -1,6 +1,6 @@
 from django.urls import path, include
 
-from Backend.authentication.views import LoginAPIView, LogoutView, UserView, registerAPIView
+from .views import LoginAPIView, LogoutView, UserView, registerAPIView
 
 urlpatterns = [
     path('register/', registerAPIView.as_view()),
