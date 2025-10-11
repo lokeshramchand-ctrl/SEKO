@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Login with Google</title>
+</head>
+<body>
+    <h1>Login Page</h1>
+    {% if user.is_authenticated %}
+        <p>Welcome, {{ user.username }}!</p>
+        <p><a href="{% url 'account_logout' %}">Logout</a></p>
+    {% else %}
+        <a href="{% provider_login_url 'google' %}">Sign in with Google</a>
+    {% endif %}
+</body>
+</html>
