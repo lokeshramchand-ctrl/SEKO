@@ -1,0 +1,63 @@
+{% extends "authentication/base.html" %}
+{% block title %}Register{% endblock %}
+{% block content %}
+<h2>Create account</h2>
+
+<label for="name">Full name</label>
+<input id="name" type="text" placeholder="John Doe" />
+
+<label for="email">Email</label>
+<input id="email" type="email" placeholder="you@example.com" />
+
+<label for="password">Password</label>
+<input id="password" type="password" />
+
+<label for="password2">Confirm password</label>
+<input id="password2" type="password" />
+
+<button id="submitBtn">Register</button>
+
+<div id="result" class="msg" style="display:none"></div>
+
+<p class="muted">Already registered? <a href="/auth/login/">Login</a></p>
+
+<script>
+const api = '/api/register/'; // adjust if your API prefix differs
+
+document.getElementById('submitBtn').onclick = async () => {
+  const name = document.getElementById('name').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value;
+  const password2 = document.getElementById('password2').value;
+
+  const resBox = document.getElementById('result');
+  resBox.style.display = 'none';
+
+  try {
+    const r = await fetch(api, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, password, password2 })
+    });
+
+    const data = await r.json();
+    if (r.ok) {
+      resBox.textContent = '✅ Registered — you can now login';
+      resBox.className = 'msg success';
+      resBox.style.display = 'block';
+      // redirect to login after a short pause
+      setTimeout(()=> location.href = '/auth/login/', 900);
+    } else {
+      // try to show DRF style errors
+      resBox.textContent = (data.detail || JSON.stringify(data));
+      resBox.className = 'msg error';
+      resBox.style.display = 'block';
+    }
+  } catch (err) {
+    resBox.textContent = 'Network error: ' + err;
+    resBox.className = 'msg error';
+    resBox.style.display = 'block';
+  }
+};
+</script>
+{% endblock %}

@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',       # JWT authentication (stateless)
 
     # Local Apps
-    'auth',                 # Custom app for user model & endpoints
+    'authi',                 # Custom app for user model & endpoints
 ]
 
 # =============================================================
@@ -140,7 +140,7 @@ STATIC_URL = 'static/'
 # =============================================================
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-AUTH_USER_MODEL = 'authentication.User'
+AUTH_USER_MODEL = 'authi.User'
 
 # =============================================================
 # 1️⃣1️⃣  DJANGO REST FRAMEWORK CONFIGURATION
@@ -154,6 +154,14 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.AllowAny',  # Restrict later if needed
     ),
 }
+# =============================================================
+# 1️⃣2️⃣  AUTH_BACKEND CONFIGURATION (AUTHENTICATION ENGINE)
+# =============================================================
+
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+]
 
 # =============================================================
 # 1️⃣2️⃣  SIMPLEJWT CONFIGURATION (AUTHENTICATION ENGINE)

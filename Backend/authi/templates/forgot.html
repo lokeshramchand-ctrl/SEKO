@@ -1,0 +1,45 @@
+{% extends "authentication/base.html" %}
+{% block title %}Forgot Password{% endblock %}
+{% block content %}
+<h2>Forgot Password</h2>
+
+<label for="email">Enter your account email</label>
+<input id="email" type="email" placeholder="you@example.com" />
+
+<button id="submitBtn">Send reset link</button>
+
+<div id="result" class="msg" style="display:none"></div>
+<p class="small muted">This page posts JSON to your `/api/forgot/` endpoint. Adjust the endpoint if your API uses a different path.</p>
+
+<script>
+const api = '/api/forgot/'; // change if needed
+
+document.getElementById('submitBtn').onclick = async () => {
+  const email = document.getElementById('email').value.trim();
+  const resBox = document.getElementById('result');
+  resBox.style.display = 'none';
+
+  try {
+    const r = await fetch(api, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email })
+    });
+    const data = await r.json();
+    if (r.ok) {
+      resBox.textContent = data.message || 'Reset instructions sent if the email exists.';
+      resBox.className = 'msg success';
+      resBox.style.display = 'block';
+    } else {
+      resBox.textContent = (data.detail || JSON.stringify(data));
+      resBox.className = 'msg error';
+      resBox.style.display = 'block';
+    }
+  } catch (err) {
+    resBox.textContent = 'Network error: ' + err;
+    resBox.className = 'msg error';
+    resBox.style.display = 'block';
+  }
+};
+</script>
+{% endblock %}
