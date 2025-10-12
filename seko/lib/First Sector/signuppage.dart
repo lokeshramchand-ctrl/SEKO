@@ -1,8 +1,10 @@
-// ignore_for_file: deprecated_member_use
+// ignore_for_file: deprecated_member_use, use_build_context_synchronously, non_constant_identifier_names
+
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:seko/First%20Sector/loginbutton.dart';
+import 'package:http/http.dart' as http;
 
 class Signuppage extends StatefulWidget {
   const Signuppage({super.key});
@@ -12,6 +14,103 @@ class Signuppage extends StatefulWidget {
 }
 
 class _SignuppageState extends State<Signuppage> {
+  TextEditingController name = TextEditingController();
+  TextEditingController email = TextEditingController();
+  TextEditingController password = TextEditingController();
+  // TextEditingController confirmPassword = TextEditingController();
+
+  bool isLoading = false;
+  String? errorMessage;
+
+  Future<void> registerUser() async {
+    setState(() {
+      isLoading = true;
+      errorMessage = null;
+    });
+
+    // if (password.text != confirmPassword.text) {
+    //   setState(() {
+    //     isLoading = false;
+    //     errorMessage = 'Passwords do not match';
+    //   });
+    //   return;
+    // }
+
+    final url = Uri.parse(
+      'http://192.168.1.10:8000/api/register/',
+    ); // Replace with your backend URL
+
+    final body = jsonEncode({
+      'name': name.text.trim(),
+      'email': email.text.trim(),
+      'password': password.text,
+    });
+
+    try {
+      final response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: body,
+      );
+
+      if (response.statusCode == 201) {
+        // Registration successful
+        Navigator.pop(context); // Or navigate to login or home
+      } else {
+        // Handle error response
+        final data = jsonDecode(response.body);
+        setState(() {
+          errorMessage = data.toString();
+        });
+      }
+    } catch (e) {
+      setState(() {
+        errorMessage = 'Error connecting to server';
+      });
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
+  Widget LoginButton(String buttonText) {
+    return Container(
+      width: 300, // Fixed width for all buttons
+      height: 70, // Fixed height for all buttons
+      padding: const EdgeInsets.all(10.0), // Add padding around the button
+      decoration: BoxDecoration(
+        color: const Color(0xFFFCD956), // #FCD956 background color
+        borderRadius: BorderRadius.circular(20), // Rounded corners
+      ),
+      child: ElevatedButton(
+        onPressed: () {
+          registerUser();
+        },
+        style: ElevatedButton.styleFrom(
+          foregroundColor: Colors.black,
+          backgroundColor:
+              Colors.transparent, // Makes button background transparent
+          elevation: 0, // Remove button shadow
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const SizedBox(width: 8), // Space between icon and text
+            Text(
+              buttonText, // Use the parameter buttonText
+              style: GoogleFonts.albertSans(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+                color: Colors.black, // Customize color as needed
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   bool isSellerSelected = true;
 
   @override
@@ -57,10 +156,7 @@ class _SignuppageState extends State<Signuppage> {
               decoration: BoxDecoration(
                 color: const Color(0xFFD9D9D9),
                 borderRadius: BorderRadius.circular(15),
-                border: Border.all(
-                  color: const Color(0xFFFCD956),
-                  width: 1.0,
-                ),
+                border: Border.all(color: const Color(0xFFFCD956), width: 1.0),
               ),
               child: Stack(
                 children: [
@@ -68,8 +164,9 @@ class _SignuppageState extends State<Signuppage> {
                     alignment: isSellerSelected
                         ? Alignment.centerLeft
                         : Alignment.centerRight, // Change based on selection
-                    duration:
-                        const Duration(milliseconds: 300), // Smooth animation
+                    duration: const Duration(
+                      milliseconds: 300,
+                    ), // Smooth animation
                     curve: Curves.easeInOut,
                     child: Container(
                       width: 140,
@@ -139,26 +236,26 @@ class _SignuppageState extends State<Signuppage> {
           ),
 
           const SizedBox(height: 50), // Additional space if needed
-
           // Text Fields for input
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                _buildTextField(context, "Name"),
-                const SizedBox(height: 10), // Space between fields
-                _buildTextField(context, "Email"),
-                const SizedBox(height: 10), // Space between fields
-                _buildTextField(context, "Password"),
+                _buildTextField(context, "Name", name),
                 const SizedBox(height: 10),
-                _buildTextField(context, "Confirm Password"),
-                const SizedBox(
-                  height: 100,
+                _buildTextField(context, "Email", email),
+                const SizedBox(height: 10),
+                _buildTextField(
+                  context,
+                  "Password",
+                  password,
+                  obscureText: true,
                 ),
+                // const SizedBox(height: 10),
+                // _buildTextField(context, "Confirm Password"),
+                const SizedBox(height: 100),
                 const SizedBox(height: 30), // Space before button
-                const LoginButton(
-                  buttonText: 'Next',
-                )
+                LoginButton('Next'),
               ],
             ),
           ),
@@ -167,8 +264,12 @@ class _SignuppageState extends State<Signuppage> {
     );
   }
 
-  // Text Field Builder
-  Widget _buildTextField(BuildContext context, String hintText) {
+  Widget _buildTextField(
+    BuildContext context,
+    String hintText,
+    TextEditingController controller, {
+    bool obscureText = false,
+  }) {
     return Container(
       width: 300,
       height: 70,
@@ -176,12 +277,11 @@ class _SignuppageState extends State<Signuppage> {
       decoration: BoxDecoration(
         color: const Color(0xFFD9D9D9),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(
-          color: const Color(0xFFFCD956), // Border color
-          width: 1.0, // Border width (thin)
-        ),
+        border: Border.all(color: const Color(0xFFFCD956), width: 1.0),
       ),
       child: TextField(
+        controller: controller,
+        obscureText: obscureText,
         textAlign: TextAlign.center,
         decoration: InputDecoration(
           hintText: hintText,
