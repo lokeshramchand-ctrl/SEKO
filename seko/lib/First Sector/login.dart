@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:seko/First%20Sector/loginbutton.dart';
+import 'package:seko/enviroment.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -19,7 +20,7 @@ class _LoginState extends State<Login> {
   final TextEditingController passwordController = TextEditingController();
   bool _isLoading = false;
   String? _errorMessage;
-  final _secureStorage = FlutterSecureStorage();
+  static const _secureStorage = FlutterSecureStorage();
 
   Future<void> login() async {
     setState(() {
@@ -27,7 +28,7 @@ class _LoginState extends State<Login> {
       _errorMessage = null;
     });
 
-    final url = Uri.parse('http://127.0.0.1:8000/api/token/');
+    final url = Uri.parse('${Environment.baseUrl}/api/token/');
 
     try {
       final response = await http.post(

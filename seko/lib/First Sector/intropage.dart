@@ -143,7 +143,14 @@ class _IntropageState extends State<Intropage> {
                   ),
                 ),
                 const SizedBox(height: 30), // Space between buttons
-                const LoginButton(buttonText: 'Login'),
+                _buildButton(
+                  context,
+                  "Login",
+                  "assets/7.png", // Path to your custom Email icon
+                  () {
+                    Navigator.pushNamed(context, '/login');
+                  },
+                ),
               ],
             ),
           ),
