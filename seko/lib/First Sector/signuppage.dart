@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
+import 'package:seko/enviroment.dart';
 
 class Signuppage extends StatefulWidget {
   const Signuppage({super.key});
@@ -17,6 +18,7 @@ class _SignuppageState extends State<Signuppage> {
   TextEditingController name = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
+  TextEditingController flat_no = TextEditingController();
   // TextEditingController confirmPassword = TextEditingController();
 
   bool isLoading = false;
@@ -37,13 +39,14 @@ class _SignuppageState extends State<Signuppage> {
     // }
 
     final url = Uri.parse(
-      'http://192.168.1.10:8000/api/register/',
+      '${Environment.baseUrl}/api/register/',
     ); // Replace with your backend URL
 
     final body = jsonEncode({
       'name': name.text.trim(),
       'email': email.text.trim(),
       'password': password.text,
+      'flat_no': flat_no.text,
     });
 
     try {
@@ -55,7 +58,7 @@ class _SignuppageState extends State<Signuppage> {
 
       if (response.statusCode == 201) {
         // Registration successful
-        Navigator.pop(context); // Or navigate to login or home
+        Navigator.pushNamed(context, '/homepage');
       } else {
         // Handle error response
         final data = jsonDecode(response.body);
@@ -251,6 +254,8 @@ class _SignuppageState extends State<Signuppage> {
                   password,
                   obscureText: true,
                 ),
+                _buildTextField(context, "Flat_No", flat_no),
+
                 // const SizedBox(height: 10),
                 // _buildTextField(context, "Confirm Password"),
                 const SizedBox(height: 100),
