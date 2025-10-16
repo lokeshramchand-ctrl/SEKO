@@ -1,21 +1,35 @@
 // ignore_for_file: file_names, library_private_types_in_public_api, use_build_context_synchronously, deprecated_member_use
 
+import 'dart:convert';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
+import 'package:seko/enviroment.dart';
 
 class ProductDetailPage extends StatefulWidget {
-  final String image;
-  final String label;
+  final String name;
   final double price;
-  final Color color;
+  final String image;
+  final String category;
 
   const ProductDetailPage({
     super.key,
-    required this.image,
-    required this.label,
+    required this.name,
     required this.price,
-    required this.color,
+    required this.image,
+    required this.category,
   });
+
+  factory ProductDetailPage.fromJson(Map<String, dynamic> json) {
+    return ProductDetailPage(
+      name: json['name'],
+      price: (json['price'] as num).toDouble(),
+      image: json['image'],
+      category: json['category'],
+    );
+  }
 
   @override
   _ProductDetailPageState createState() => _ProductDetailPageState();
@@ -28,6 +42,29 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   void initState() {
     super.initState();
     _totalPrice = widget.price;
+  }
+
+  Future<List<ProductDetailPage>> fetchProducts() async {
+    final response = await http.get(
+      Uri.parse('{$Environment.baseUrl}/api/products/'),
+    );
+
+    if (response.statusCode == 200) {
+      final List<dynamic> data = jsonDecode(response.body);
+      return data.map((e) => ProductDetailPage.fromJson(e)).toList();
+    } else {
+      throw Exception('Failed to load products');
+    }
+  }
+
+  Color getRandomPastelColor() {
+    final Random random = Random();
+    return Color.fromARGB(
+      255,
+      200 + random.nextInt(55), // keeps values in lighter range
+      200 + random.nextInt(55),
+      200 + random.nextInt(55),
+    );
   }
 
   @override
@@ -46,7 +83,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
             Container(
               padding: EdgeInsets.all(isSmallScreen ? 16.0 : 24.0),
               decoration: BoxDecoration(
-                color: widget.color.withOpacity(0.3),
+                color: getRandomPastelColor(),
                 borderRadius: BorderRadius.circular(24),
                 boxShadow: const [
                   BoxShadow(
@@ -60,7 +97,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 children: [
                   SizedBox(height: isSmallScreen ? 40 : 60),
                   Center(
-                    child: Image.asset(
+                    child: Image.network(
                       widget.image,
                       height: screenHeight * 0.3,
                       fit: BoxFit.cover,
@@ -68,7 +105,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   ),
                   SizedBox(height: isSmallScreen ? 60 : 120),
                   Text(
-                    widget.label,
+                    widget.name,
                     style: GoogleFonts.albertSans(
                       fontSize: isSmallScreen ? 20 : 24,
                       fontWeight: FontWeight.normal,
@@ -112,8 +149,9 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
             ),
             const SizedBox(height: 15),
             SizedBox(
-              width:
-                  isSmallScreen ? screenWidth * 0.8 : 300, // Responsive width
+              width: isSmallScreen
+                  ? screenWidth * 0.8
+                  : 300, // Responsive width
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Colors.white,
