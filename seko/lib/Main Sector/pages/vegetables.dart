@@ -19,7 +19,7 @@ class Vegetables extends StatefulWidget {
 class _VegetablesState extends State<Vegetables> {
   Future<List<dynamic>> fetchVegetableProducts() async {
     final response = await http.get(
-      Uri.parse('${Environment.baseUrl}/api/products/?category=Dairy'),
+      Uri.parse('${Environment.baseUrl}/products/?category=Dairy'),
     );
 
     if (response.statusCode == 200) {
