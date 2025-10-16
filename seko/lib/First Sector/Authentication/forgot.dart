@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:seko/First%20Sector/loginbutton.dart';
+import 'package:seko/First%20Sector/Authentication/loginbutton.dart';
 
 class Forgot extends StatelessWidget {
   const Forgot({super.key});
@@ -41,9 +41,7 @@ class Forgot extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(
-            height: 150,
-          ),
+          const SizedBox(height: 150),
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -52,9 +50,7 @@ class Forgot extends StatelessWidget {
                 const SizedBox(height: 30), // Space between fields
                 const SizedBox(height: 100),
                 const SizedBox(height: 150), // Space before button
-                const LoginButton(
-                  buttonText: 'Next',
-                )
+                const LoginButton(buttonText: 'Next'),
               ],
             ),
           ),
