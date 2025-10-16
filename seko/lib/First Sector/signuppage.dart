@@ -260,7 +260,26 @@ class _SignuppageState extends State<Signuppage> {
                 // _buildTextField(context, "Confirm Password"),
                 const SizedBox(height: 100),
                 const SizedBox(height: 30), // Space before button
-                LoginButton('Next'),
+                ElevatedButton(
+                  onPressed: registerUser,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(
+                      0xFFFCD956,
+                    ), // Your button color
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 100,
+                      vertical: 15,
+                    ),
+                    textStyle: GoogleFonts.albertSans(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                  child: const Text('Next'),
+                ),
               ],
             ),
           ),

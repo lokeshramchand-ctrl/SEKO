@@ -104,7 +104,7 @@ class _LoginState extends State<Login> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                _buildTextField(emailController, "Email"),
+                _buildTextField(emailController, "Username"),
                 const SizedBox(height: 30),
                 _buildPasswordWithForgot(passwordController),
                 if (_errorMessage != null)
