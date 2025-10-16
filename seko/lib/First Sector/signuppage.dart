@@ -15,7 +15,7 @@ class Signuppage extends StatefulWidget {
 }
 
 class _SignuppageState extends State<Signuppage> {
-  TextEditingController name = TextEditingController();
+  TextEditingController username = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
   TextEditingController flat_no = TextEditingController();
@@ -43,7 +43,7 @@ class _SignuppageState extends State<Signuppage> {
     ); // Replace with your backend URL
 
     final body = jsonEncode({
-      'name': name.text.trim(),
+      'username': username.text.trim(),
       'email': email.text.trim(),
       'password': password.text,
       'flat_no': flat_no.text,
@@ -58,7 +58,7 @@ class _SignuppageState extends State<Signuppage> {
 
       if (response.statusCode == 201) {
         // Registration successful
-        Navigator.pushNamed(context, '/homepage');
+        Navigator.pushNamed(context, '/login');
       } else {
         // Handle error response
         final data = jsonDecode(response.body);
@@ -244,7 +244,7 @@ class _SignuppageState extends State<Signuppage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                _buildTextField(context, "Name", name),
+                _buildTextField(context, "Username", username),
                 const SizedBox(height: 10),
                 _buildTextField(context, "Email", email),
                 const SizedBox(height: 10),
