@@ -39,7 +39,7 @@ class _SignuppageState extends State<Signuppage> {
     // }
 
     final url = Uri.parse(
-      '${Environment.baseUrl}/api/register/',
+      '${Environment.baseUrl}/api/api/register/',
     ); // Replace with your backend URL
 
     final body = jsonEncode({

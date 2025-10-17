@@ -28,7 +28,7 @@ class _LoginState extends State<Login> {
       _errorMessage = null;
     });
 
-    final url = Uri.parse('${Environment.baseUrl}/login/');
+    final url = Uri.parse('${Environment.baseUrl}api/api/login/');
 
     try {
       final response = await http.post(
