@@ -254,6 +254,8 @@ class _SignuppageState extends State<Signuppage> {
                   password,
                   obscureText: true,
                 ),
+                const SizedBox(height: 10),
+
                 _buildTextField(context, "Flat_No", flat_no),
 
                 // const SizedBox(height: 10),
