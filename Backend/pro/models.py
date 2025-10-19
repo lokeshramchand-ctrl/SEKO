@@ -18,7 +18,7 @@ class Product(models.Model):
         on_delete=models.CASCADE,
         related_name="products"
     )
-  image = models.ImageField(upload_to='images/', null=True, blank=True)
+  image = models.ImageField(upload_to='', null=True, blank=True)
   
   def __str__(self):
     return self.name

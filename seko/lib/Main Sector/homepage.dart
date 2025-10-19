@@ -19,7 +19,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final List<Map<String, dynamic>> items = [
     {
-      "image": "assets/32.png",
+      "image": "assets/22.png",
       "label": "Vegetables",
       "color": "0xFF9430A1", // Original color
       "page": const Vegetables(),

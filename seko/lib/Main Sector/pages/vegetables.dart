@@ -31,9 +31,9 @@ class _VegetablesState extends State<Vegetables> {
     final Random random = Random();
     return Color.fromARGB(
       255,
-      200 + random.nextInt(55),
-      200 + random.nextInt(55),
-      200 + random.nextInt(55),
+      200 + random.nextInt(255),
+      200 + random.nextInt(255),
+      200 + random.nextInt(255),
     );
   }
 
@@ -56,15 +56,17 @@ class _VegetablesState extends State<Vegetables> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.network(
-                '${Environment.baseUrl}${product.image}',
-                height: screenHeight * 0.12,
+                product.image.startsWith('http')
+                    ? product.image
+                    : '${Environment.baseUrl}${product.image.startsWith('/images/') ? product.image : '/images/${product.image}'}',
                 fit: BoxFit.contain,
                 errorBuilder: (_, __, ___) => const Icon(
                   Icons.broken_image,
-                  size: 48,
+                  size: 80,
                   color: Colors.grey,
                 ),
               ),
+
               const SizedBox(height: 8),
               Text(
                 product.name,
