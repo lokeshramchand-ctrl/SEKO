@@ -10,3 +10,4 @@ asgiref
 django-cors-headers
 PyJWT
 pytz
+environ
