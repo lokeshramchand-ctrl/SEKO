@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: '/',
+      initialRoute: '/cartpage',
       routes: {
         //First Sector
         '/': (context) => const AnimationScreen(),
@@ -45,7 +45,7 @@ class MyApp extends StatelessWidget {
         '/dairy': (context) => const Dairy(),
 
         //End sector
-        '/checkout': (context) => const Checkout(),
+        '/cartpage': (context) => const CartPage(),
         '/payment': (context) => const PaymentPage(),
         '/delivery': (context) => const DeliveryPage(),
       },

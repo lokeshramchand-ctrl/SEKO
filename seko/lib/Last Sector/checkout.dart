@@ -1,256 +1,344 @@
-// ignore_for_file: deprecated_member_use
+
+// ignore_for_file: use_super_parameters, deprecated_member_use
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class Checkout extends StatelessWidget {
-  const Checkout({super.key});
+class CartPage extends StatefulWidget {
+  const CartPage({Key? key}) : super(key: key);
+
+  @override
+  State<CartPage> createState() => _CartPageState();
+}
+
+class _CartPageState extends State<CartPage> {
+  List<CartItem> cartItems = [
+    CartItem(
+      name: 'Orange',
+      weight: '100 gm',
+      price: 100.00,
+      quantity: 1,
+      image: 'assets/orange.png',
+    ),
+    CartItem(
+      name: 'Orange',
+      weight: '100 gm',
+      price: 100.00,
+      quantity: 1,
+      image: 'assets/cabbage.png',
+    ),
+    CartItem(
+      name: 'Orange',
+      weight: '100 gm',
+      price: 100.00,
+      quantity: 1,
+      image: 'assets/strawberry.png',
+    ),
+  ];
+
+  bool selectAll = false;
 
   @override
   Widget build(BuildContext context) {
-    final cartItems = [
-      {
-        'name': 'Garlic',
-        'price': 22.5,
-        'quantity': 2,
-        'image': "assets/21.png", // Replaced icon with asset image
-      },
-      {
-        'name': 'Capsicum',
-        'price': 55.0,
-        'quantity': 1,
-        'image': "assets/44.png", // Replaced icon with asset image
-      },
-      {
-        'name': 'Cabbage',
-        'price': 9.5,
-        'quantity': 6,
-        'image': "assets/13.png", // Replaced icon with asset image
-      },
-    ];
-
-    // Static values for subtotal, taxes, management fee, and total
-    double subtotal = 160.0;
-    double taxes = 15.0;
-    double managementFee = 2.5;
-    double total = 177.5;
-
     return Scaffold(
-      backgroundColor: const Color(0xFFFCD956),
+      backgroundColor: Colors.grey[50],
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () => Navigator.pop(context),
+        ),
+        title: Text(
+          'My Cart',
+          style: GoogleFonts.albertSans(
+            color: Colors.black,
+            fontSize: 20,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.more_vert, color: Colors.black),
+            onPressed: () {},
+          ),
+        ],
+      ),
       body: Column(
         children: [
-          const SizedBox(height: 55),
-          Container(
-            width: 150, // Define width
-            height: 50, // Define height
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(35), // Round corners
-              border: Border.all(
-                color: Colors.white,
-                width: 4,
-              ),
-            ),
-            child: Center(
-              child: TextButton(
-                  onPressed: () {},
-                  child: Text(
-                    "Back",
-                    style: GoogleFonts.albertSans(
-                      color: Colors.white,
-                      fontSize: 18,
-                    ),
-                  )),
-            ),
-          ),
-          const SizedBox(height: 40),
-          Center(
-            child: Container(
-              width: MediaQuery.of(context).size.width * 0.9,
-              height: MediaQuery.of(context).size.height *
-                  0.7, // Increased height for better layout
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
-                    blurRadius: 10,
-                    offset: const Offset(0, 4),
+          // Header with item count and select all
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  '${cartItems.length} Items',
+                  style: GoogleFonts.albertSans(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black87,
                   ),
-                ],
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Header Section
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      selectAll = !selectAll;
+                    });
+                  },
+                  child: Row(
                     children: [
-                      Text(
-                        'Invoice',
-                        style: GoogleFonts.albertSans(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
+                      Container(
+                        width: 20,
+                        height: 20,
+                        decoration: BoxDecoration(
+                          color: selectAll ? Colors.orange : Colors.white,
+                          border: Border.all(
+                            color: Colors.orange,
+                            width: 2,
+                          ),
+                          borderRadius: BorderRadius.circular(4),
                         ),
+                        child: selectAll
+                            ? const Icon(
+                                Icons.check,
+                                size: 14,
+                                color: Colors.white,
+                              )
+                            : null,
                       ),
-                      Image.asset(
-                        'assets/3.png',
-                        width: 64,
-                        height: 64,
+                      const SizedBox(width: 8),
+                      Text(
+                        'Select all',
+                        style: GoogleFonts.albertSans(
+                          fontSize: 14,
+                          color: Colors.orange,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 16),
-                  const Divider(),
-                  const SizedBox(height: 8),
-                  Text(
-                    'Products',
-                    style: GoogleFonts.albertSans(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  // Product Items List
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: cartItems.length,
-                      itemBuilder: (context, index) {
-                        final item = cartItems[index];
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                children: [
-                                  item['image'] is String
-                                      ? Image.asset(
-                                          item['image'] as String,
-                                          width: 24,
-                                          height: 24,
-                                        )
-                                      : Container(), // Fallback if image is not available
-                                  const SizedBox(width: 8),
-                                  Text(
-                                    item['name'] as String,
-                                    style: GoogleFonts.albertSans(),
-                                  ),
-                                ],
-                              ),
-                              Text(
-                                '₹${(item['price'] as double).toStringAsFixed(2)}',
-                                style: GoogleFonts.albertSans(),
-                              ),
-                              Text(
-                                '${item['quantity']}',
-                                style: GoogleFonts.albertSans(),
-                              ),
-                              Text(
-                                '₹${((item['price'] as double) * (item['quantity'] as int).toDouble()).toStringAsFixed(2)}',
-                                style: GoogleFonts.albertSans(),
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                  const Divider(),
-                  // Summary Section (Subtotal, Taxes, Management Fee)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        _buildSummaryRow(
-                            'All', '₹${subtotal.toStringAsFixed(2)}'),
-                        _buildSummaryRow(
-                            'Taxes', '₹${taxes.toStringAsFixed(2)}'),
-                        _buildSummaryRow('Management',
-                            '₹${managementFee.toStringAsFixed(2)}'),
-                      ],
-                    ),
-                  ),
-                  const Divider(),
-                  // Total Section
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Total',
-                          style: GoogleFonts.albertSans(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          '₹${total.toStringAsFixed(2)}',
-                          style: GoogleFonts.albertSans(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: ElevatedButton(
-                onPressed: () {
-                  // Handle checkout action here
-                  Navigator.pushNamed(context, '/payment');
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(vertical: 20),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-                child: Text(
-                  '  Proceed to Payment  ',
-                  style: GoogleFonts.albertSans(
-                    color: const Color(0xFFFCD956),
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
+          // Cart Items List
+          Expanded(
+            child: ListView.builder(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              itemCount: cartItems.length,
+              itemBuilder: (context, index) {
+                return CartItemWidget(
+                  item: cartItems[index],
+                  onQuantityChanged: (newQuantity) {
+                    setState(() {
+                      cartItems[index].quantity = newQuantity;
+                    });
+                  },
+                  onDelete: () {
+                    setState(() {
+                      cartItems.removeAt(index);
+                    });
+                  },
+                );
+              },
             ),
           ),
         ],
       ),
     );
   }
+}
 
-  Widget _buildSummaryRow(String label, String amount) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 2),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            label,
-            style: GoogleFonts.albertSans(),
+class CartItemWidget extends StatelessWidget {
+  final CartItem item;
+  final Function(int) onQuantityChanged;
+  final VoidCallback onDelete;
+
+  const CartItemWidget({
+    Key? key,
+    required this.item,
+    required this.onQuantityChanged,
+    required this.onDelete,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.04),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
           ),
-          Text(
-            amount,
-            style: GoogleFonts.albertSans(),
+        ],
+      ),
+      child: Row(
+        children: [
+          // Checkbox
+          Container(
+            width: 24,
+            height: 24,
+            decoration: BoxDecoration(
+              color: Colors.orange,
+              borderRadius: BorderRadius.circular(6),
+            ),
+            child: const Icon(
+              Icons.check,
+              size: 16,
+              color: Colors.white,
+            ),
+          ),
+          const SizedBox(width: 12),
+          // Product Image
+          Container(
+            width: 80,
+            height: 80,
+            decoration: BoxDecoration(
+              color: Colors.grey[100],
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Center(
+              child: Icon(
+                Icons.fastfood,
+                size: 40,
+                color: Colors.grey[400],
+              ),
+            ),
+          ),
+          const SizedBox(width: 12),
+          // Product Details
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      item.name,
+                      style: GoogleFonts.albertSans(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black87,
+                      ),
+                    ),
+                    IconButton(
+                      icon: const Icon(
+                        Icons.delete_outline,
+                        color: Colors.orange,
+                        size: 22,
+                      ),
+                      onPressed: onDelete,
+                      padding: EdgeInsets.zero,
+                      constraints: const BoxConstraints(),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  item.weight,
+                  style: GoogleFonts.albertSans(
+                    fontSize: 14,
+                    color: Colors.grey[600],
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      '\$${item.price.toStringAsFixed(2)}',
+                      style: GoogleFonts.albertSans(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.black,
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        // Minus Button
+                        GestureDetector(
+                          onTap: () {
+                            if (item.quantity > 1) {
+                              onQuantityChanged(item.quantity - 1);
+                            }
+                          },
+                          child: Container(
+                            width: 32,
+                            height: 32,
+                            decoration: BoxDecoration(
+                              color: Colors.grey[200],
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: const Icon(
+                              Icons.remove,
+                              size: 18,
+                              color: Colors.black87,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        // Quantity
+                        Text(
+                          '${item.quantity}',
+                          style: GoogleFonts.albertSans(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black,
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        // Plus Button
+                        GestureDetector(
+                          onTap: () {
+                            onQuantityChanged(item.quantity + 1);
+                          },
+                          child: Container(
+                            width: 32,
+                            height: 32,
+                            decoration: BoxDecoration(
+                              color: Colors.green,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: const Icon(
+                              Icons.add,
+                              size: 18,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ],
       ),
     );
   }
+}
+
+class CartItem {
+  String name;
+  String weight;
+  double price;
+  int quantity;
+  String image;
+
+  CartItem({
+    required this.name,
+    required this.weight,
+    required this.price,
+    required this.quantity,
+    required this.image,
+  });
 }
