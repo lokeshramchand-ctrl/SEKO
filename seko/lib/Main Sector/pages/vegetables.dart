@@ -31,9 +31,9 @@ class _VegetablesState extends State<Vegetables> {
     final Random random = Random();
     return Color.fromARGB(
       255,
-      200 + random.nextInt(255),
-      200 + random.nextInt(255),
-      200 + random.nextInt(255),
+      180 + random.nextInt(55),
+      180 + random.nextInt(55),
+      180 + random.nextInt(55),
     );
   }
 
