@@ -118,7 +118,7 @@ class _VegetablesState extends State<Vegetables> {
                     ),
                     const Spacer(),
                     IconButton(
-                      onPressed: () => Navigator.pushNamed(context, '/cart'),
+                      onPressed: () => Navigator.pushNamed(context, '/cartpage'),
                       icon: Image.asset(
                         'assets/51.png',
                         height: screenWidth * 0.12,

@@ -10,7 +10,8 @@ import '../enviroment.dart';
 
 class ProductDetailPage extends StatelessWidget {
   final Product product;
-  const ProductDetailPage({super.key, required this.product});
+   const ProductDetailPage({super.key, required this.product});
+//  final FlutterCart _cart = FlutterCart();
 
   Color getRandomPastelColor() {
     final Random random = Random();
