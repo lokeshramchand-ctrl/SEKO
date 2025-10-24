@@ -138,6 +138,8 @@ class _VegetablesState extends State<Vegetables> {
                 const SizedBox(height: 12),
                 const Divider(),
                 const SizedBox(height: 24),
+
+                //Fetching from another side 
                 FutureBuilder<List<Product>>(
                   future: _futureProducts,
                   builder: (context, snapshot) {

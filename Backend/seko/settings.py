@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     # Local Apps
     'authi',                 # Custom app for user model & endpoints
     'pro',
+    'cart',
 ]
 
 # =============================================================
