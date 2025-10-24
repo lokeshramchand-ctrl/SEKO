@@ -4,7 +4,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:seko/Main%20Sector/models/product.dart';
+import 'package:seko/models/product.dart';
 import '../enviroment.dart';
 
 class ProductDetailPage extends StatelessWidget {

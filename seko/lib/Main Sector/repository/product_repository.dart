@@ -2,7 +2,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:seko/enviroment.dart';
-import '../models/product.dart';
+import '../../models/product.dart';
 
 class ProductRepository {
   Future<List<Product>> fetchProductsByCategory(String category) async {
