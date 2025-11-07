@@ -2,7 +2,7 @@ class CartModel {
   final int id;
   final String productName;
   final double price;
-  final int quantity;
+   int quantity;
 
   CartModel({
     required this.id,
