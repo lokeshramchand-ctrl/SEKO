@@ -1,16 +1,17 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, use_build_context_synchronously
 
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:seko/Main%20Sector/repository/cart_repository.dart';
 import 'package:seko/models/product.dart';
 import '../enviroment.dart';
 
 class ProductDetailPage extends StatelessWidget {
   final Product product;
-   const ProductDetailPage({super.key, required this.product});
-//  final FlutterCart _cart = FlutterCart();
+    ProductDetailPage({super.key, required this.product});
+    final CartService _cartService = CartService();
 
   Color getRandomPastelColor() {
     final Random random = Random();
@@ -121,8 +122,29 @@ class ProductDetailPage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(25),
                   ),
                 ),
-                onPressed: (){
-                },
+                onPressed: () async {
+  try {
+    // Example: product.id is the product you’re currently viewing
+    final int productId = product.id;  
+    const int quantity = 1; // you can make this dynamic if needed
+
+    await _cartService.addToCart(productId, quantity);
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('${product.name} added to cart!'),
+        backgroundColor: Colors.green,
+      ),
+    );
+  } catch (e) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Failed to add to cart: $e'),
+        backgroundColor: Colors.red,
+      ),
+    );
+  }
+},
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 23.0),
                   child: Text(

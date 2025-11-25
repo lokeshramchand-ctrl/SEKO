@@ -8,7 +8,7 @@ class CartService {
   final _storage = const FlutterSecureStorage();
 
   /// ✅ Construct base URL dynamically
-  String get _baseUrl => '${Environment.baseUrl}/cart/';
+  String get _baseUrl => '${Environment.baseUrl}/api/cart/';
 
   /// ✅ Retrieve JWT Token
   Future<String?> _getToken() async {
@@ -91,7 +91,7 @@ class CartService {
   Future<void> checkout() async {
     final token = await _getToken();
     final response = await http.post(
-      Uri.parse('${_baseUrl}checkout/'),
+      Uri.parse('${_baseUrl}/api/checkout/'),
       headers: {
         'Authorization': 'Bearer $token',
         'Content-Type': 'application/json',

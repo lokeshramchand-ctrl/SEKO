@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: '/cartpage',
+      initialRoute: '/',
       routes: {
         //First Sector
         '/': (context) => const AnimationScreen(),
