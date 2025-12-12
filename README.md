@@ -1,3 +1,4 @@
+![Profile Picture](seko/assets/banner.png)
 
 
 # Seko – Smart Agriculture Marketplace and Inventory System
