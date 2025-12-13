@@ -2,7 +2,7 @@
 
 
 
-A modern, AI-augmented agricultural marketplace built with **Flutter**, **Django**, and **PostgreSQL**, supporting product listings, authentication, cart management, and intelligent data processing.
+A modern, AI-augmented hyperlocal marketplace built with **Flutter**, **Django**, and **PostgreSQL**, supporting product listings, authentication, cart management, and intelligent data processing.
 
 ---
 
@@ -22,7 +22,7 @@ A unified system is needed to solve authentication, marketplace management, inve
 
 ## Solution
 
-Seko is designed as a complete digital agriculture ecosystem powered by Flutter and Django with PostgreSQL. It provides:
+Seko is designed as a complete digital hyperlocal ecosystem powered by Flutter and Django with PostgreSQL. It provides:
 
 * A cross-platform mobile application for customers and sellers
 * Secure authentication and user management
