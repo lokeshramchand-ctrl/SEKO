@@ -1,7 +1,7 @@
 ![Profile Picture](seko/assets/banner.png)
 
 
-
+# Smart HyperLocal Marketplace for Community Supermarkets 
 A modern, AI-augmented hyperlocal marketplace built with **Flutter**, **Django**, and **PostgreSQL**, supporting product listings, authentication, cart management, and intelligent data processing.
 
 ---
