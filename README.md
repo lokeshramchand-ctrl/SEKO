@@ -1,7 +1,6 @@
 ![Profile Picture](seko/assets/banner.png)
 
 
-# Seko – Smart Agriculture Marketplace and Inventory System
 
 A modern, AI-augmented agricultural marketplace built with **Flutter**, **Django**, and **PostgreSQL**, supporting product listings, authentication, cart management, and intelligent data processing.
 
